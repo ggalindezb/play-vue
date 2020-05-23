@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p>
+      {{ message }}
+    </p>
+    <p v-bind:title='loadTime'>Hover here</p>
+    <p v-if='seen'>Lookie lookie</p>
+    <ol>
+      <li v-for='todo in todos'>
+        {{ todo.text }}
+      </li>
+    </ol>
+    <button v-on:click="addItem">Add</button>
+    <p>{{ bindedString }}</p>
+    <input type="text" v-model="bindedString">
+    <ul>
+      <grocery-item
+        v-for="item in groceryList"
+        v-bind:item="item"
+        v-bind:key="item.id"
+        ></grocery-item>
+    </ul>
+  </div>
+</body>
+<script>
+  Vue.component('grocery-item', {
+    props: ['item'],
+    template: '<li>{{ item.text }}</li>'
+  });
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!',
+      loadTime: `Loaded on ${new Date().toLocaleString()}`,
+      seen: true,
+      todos: [
+        { text: 'Learn JS' },
+        { text: 'Learn Vue' },
+        { text: 'Build something awesome' }
+      ],
+      bindedString: 'Sample',
+      groceryList: [
+        { id: 0, text: 'Vegetables' },
+        { id: 1, text: 'Cheese' },
+        { id: 2, text: 'Apples' }
+      ]
+    },
+    methods: {
+      addItem: function() {
+        this.todos.push({ text: 'Learn Typecript' });
+      }
+    }
+  });
+</script>
+</html>

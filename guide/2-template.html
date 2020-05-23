@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p>Message: {{ message }}</p>
+    <p v-once>Never changes: {{ message }}</p>
+    <input type="text" v-model="message">
+    <p>Using mustaches: {{ rawHtml }}</p>
+    <p>v-html directive: <span v-html="rawHtml"></span></p>
+    <hr>
+
+    <div v-bind:id="dynamicId">This div has a dynamic id</div>
+    <input type="text" v-model="dynamicId">
+    <div>Template string interpolation: {{ `${dynamicId}-1` }}</div>
+    <br>
+
+    <button v-bind:disabled="isDisabled">A Button</button>
+    <input type="checkbox" v-model="isDisabled" name="isDisabled">
+    <label for="isDisabled">Enable/Disable</label>
+    <p v-if="isDisabled">-</p>
+    <p v-else>This is shown</p>
+    <input type="radio" name="attribute" value="id" selected v-model="attribute">
+    <label for="attribute">ID</label>
+    <input type="radio" name="attribute" value="class" v-model="attribute">
+    <label for="attribute">Class</label>
+    <button v-bind:[attribute]="`${dynamicId}-abc`">Dynamic selector</button>
+    <p v-on:[trigger]="handler">Mouse over/out this</p>
+  </div>
+</body>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'A string in a variable',
+      rawHtml: '<span style="color: red">This should be red</span>',
+      dynamicId: 'element',
+      isDisabled: true,
+      attribute: 'class',
+      trigger: 'mouseover'
+    },
+    methods: {
+      handler: function(e) {
+        console.log(`${this.trigger}ed!`);
+        this.trigger = this.trigger == 'mouseover' ? 'mouseout' : 'mouseover';
+      }
+    }
+  });
+</script>
+</html>
